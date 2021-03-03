@@ -15,7 +15,7 @@
 // Input: nums = [3,3], target = 6
 // Output: [0,1]
 
-// Brute force solution
+// Brute Force Solution
 
 // We can use pointer a and b.
 // Pointer a will start at index 0
@@ -56,7 +56,7 @@ console.log(
   twoSum([3, 3], 6)
 ); // [0, 1]
 
-// Optimized solution
+// Optimized Solution
 
 // We will use memoization to decrease our time complexity while increasing our space complexity
 // We will use an object as a map which will keep track of values we are looking for in our array
