@@ -29,8 +29,8 @@ const trappingRainwater = (nums) => {
   for (let p = 0; p < nums.length; p++) {
     let maxLeft = 0;
     let maxRight = 0;
-    let leftP = p - 1;
-    let rightP = p + 1;
+    let leftP = p;
+    let rightP = p;
     while (leftP >= 0) {
       maxLeft = Math.max(maxLeft, nums[leftP]);
       leftP--;
@@ -40,7 +40,7 @@ const trappingRainwater = (nums) => {
       rightP++;
     }
     const waterAtP = Math.min(maxLeft, maxRight) - nums[p];
-    if (waterAtP > 0) {
+    if (waterAtP >= 0) {
       total = total + waterAtP;
     }
   }
@@ -74,4 +74,72 @@ console.log(
 console.log(
   "trappingRainwater([3]) should be 0, result is: ",
   trappingRainwater([3])
+); // 0
+
+// Identify pointer with lesser value
+// Is this pointer value >= to max on corresponding side
+// Yes => Update corresponding max with the pointer value
+// No => Calculate water at P and add to total
+// Increment/decrement corresponding pointer
+// Return total water
+
+// Optimized Solution
+const trappingRainwaterOptimized = (nums) => {
+  let total = 0;
+  let maxL = 0;
+  let maxR = 0;
+  let leftP = 0;
+  let rightP = nums.length - 1;
+  while (leftP < rightP) {
+    let current = 0;
+    if (nums[leftP] < nums[rightP]) {
+      current = nums[leftP];
+      if (current >= maxL) {
+        maxL = current;
+      } else {
+        const waterAtP = maxL - current;
+        total = total + waterAtP;
+      }
+      leftP++;
+    } else {
+      current = nums[rightP];
+      if (current >= maxR) {
+        maxR = current;
+      } else {
+        const waterAtP = maxR - current;
+        total = total + waterAtP;
+      }
+      rightP--;
+    }
+  }
+  return total;
+};
+
+// Time Complexity: O(n)
+// Space Complexity: O(1)
+
+// Checking Examples
+console.log(
+  "trappingRainwaterOptimized([0,1,0,2,1,0,1,3,2,1,2,1]) should be 6, result is: ",
+  trappingRainwaterOptimized([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1])
+); // 6
+console.log(
+  "trappingRainwaterOptimized([0,1,0,2,1,0,3,1,0,1,2]) should be 8, result is: ",
+  trappingRainwaterOptimized([0, 1, 0, 2, 1, 0, 3, 1, 0, 1, 2])
+); // 8
+console.log(
+  "trappingRainwaterOptimized([4,2,0,3,2,5]) should be 9, result is: ",
+  trappingRainwaterOptimized([4, 2, 0, 3, 2, 5])
+); // 9
+console.log(
+  "trappingRainwaterOptimized([3,4,3]) should be 0, result is: ",
+  trappingRainwaterOptimized([3, 4, 3])
+); // 0
+console.log(
+  "trappingRainwaterOptimized([]) should be 0, result is: ",
+  trappingRainwaterOptimized([])
+); // 0
+console.log(
+  "trappingRainwaterOptimized([3]) should be 0, result is: ",
+  trappingRainwaterOptimized([3])
 ); // 0
